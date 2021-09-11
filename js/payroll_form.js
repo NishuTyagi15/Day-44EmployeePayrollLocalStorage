@@ -24,13 +24,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const save = () => {
         try {
             let employeePayrollData = createEmployeePayroll();
-        } catch (e) {
+            createAndUpdateStorage(employeePayrollData);
+        } catch (error) {
+            console.log(error);
             return;
         }
     }
-
+    
     const createEmployeePayroll = () => {
-        let employeePayroll = new EmployeePayrollData();
+        let employeePayroll = new EmployeePayroll();
         try {
             employeePayroll.name = getInputValueById("#name");
         } catch (e) {
@@ -52,7 +54,32 @@ window.addEventListener('DOMContentLoaded', (event) => {
         alert(employeePayroll.toString());
         return employeePayroll;
     }
-
+    
+    function createAndUpdateStorage(employeePayrollData) {
+        let employeePayrollList = JSON.parse(
+            localStorage.getItem("employeePayrollList")
+        );
+    
+        const index = new URLSearchParams(window.location.search).get('index');
+        if (index == null || parseInt(index) < 0) {
+            if (employeePayrollList != undefined) {
+                employeePayrollList.push(employeePayrollData);
+            } else {
+                employeePayrollList = [employeePayrollData];
+            }
+        } else {
+            employeePayrollList[parseInt(index)] = employeePayrollData;
+        }
+        alert(employeePayrollList.toString());
+        localStorage.setItem(
+            "employeePayrollList",
+            JSON.stringify(employeePayrollList)
+        );
+    }
+    
+    /**
+     * gets the values of all the selected elements
+     */
     const getSelectedValues = (propertyValue) => {
         let allItems = document.querySelectorAll(propertyValue);
         let selItems = [];
@@ -61,17 +88,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
         });
         return selItems;
     };
-
+    
     /**
-    * querySelector is the newer feature.
-    * Can be used when selecting by element name, nesting or class name.
-    * It will let you find elements with rules that can't be expressed with getElementById.
-    */
+     * querySelector is the newer feature.
+     * Can be used when selecting by element name, nesting or class-name.
+     * It lets you find elements with rules that can't be expressed with getElementById.
+     */
     const getInputValueById = (id) => {
         let value = document.querySelector(id).value;
         return value;
     };
-
+    
     /**
     * getElementById is better supported than qurySelector method in older versions of the browsers.
     * It only allows to select element by only its id.
