@@ -21,13 +21,63 @@ window.addEventListener('DOMContentLoaded', (event) => {
         output.textContent = salary.value;
     });
 
-    let date =
-        getInputValueById("#day") +
-        "-" +
-        getInputValueById("#month") +
-        "-" +
-        getInputValueById("#year");
-    EmployeePayrollData.startDate = new Date(date);
-    alert(employeePayroll.toString());
-    return employeePayroll;
+    const save = () => {
+        try {
+            let employeePayrollData = createEmployeePayroll();
+        } catch (e) {
+            return;
+        }
+    }
+
+    const createEmployeePayroll = () => {
+        let employeePayroll = new EmployeePayrollData();
+        try {
+            employeePayroll.name = getInputValueById("#name");
+        } catch (e) {
+            setTextValue(".text-error", e);
+            throw e;
+        }
+        employeePayroll.profilePic = getSelectedValues("[name=profile]").pop();
+        employeePayroll.gender = getSelectedValues("[name=gender]").pop();
+        employeePayroll.department = getSelectedValues("[name=department]");
+        employeePayroll.salary = getInputValueById("#salary");
+        employeePayroll.note = getInputValueById("#notes");
+        let date =
+            getInputValueById("#day") +
+            "-" +
+            getInputValueById("#month") +
+            "-" +
+            getInputValueById("#year");
+        employeePayroll.startDate = new Date(date);
+        alert(employeePayroll.toString());
+        return employeePayroll;
+    }
+
+    const getSelectedValues = (propertyValue) => {
+        let allItems = document.querySelectorAll(propertyValue);
+        let selItems = [];
+        allItems.forEach((item) => {
+            if (item.checked) selItems.push(item.value);
+        });
+        return selItems;
+    };
+
+    /**
+    * querySelector is the newer feature.
+    * Can be used when selecting by element name, nesting or class name.
+    * It will let you find elements with rules that can't be expressed with getElementById.
+    */
+    const getInputValueById = (id) => {
+        let value = document.querySelector(id).value;
+        return value;
+    };
+
+    /**
+    * getElementById is better supported than qurySelector method in older versions of the browsers.
+    * It only allows to select element by only its id.
+    */
+    const getInputElementValue = (id) => {
+        let value = document.getElementById(id).value;
+        return value;
+    };
 });
