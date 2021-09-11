@@ -32,7 +32,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
     
     const createEmployeePayroll = () => {
-        let employeePayroll = new EmployeePayroll();
+        let employeePayroll = new EmployeePayrollData();
         try {
             employeePayroll.name = getInputValueById("#name");
         } catch (e) {
@@ -59,21 +59,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         let employeePayrollList = JSON.parse(
             localStorage.getItem("employeePayrollList")
         );
-    
-        const index = new URLSearchParams(window.location.search).get('index');
-        if (index == null || parseInt(index) < 0) {
-            if (employeePayrollList != undefined) {
-                employeePayrollList.push(employeePayrollData);
-            } else {
-                employeePayrollList = [employeePayrollData];
-            }
+        if (employeePayrollList != undefined) {
+            employeePayrollList.push(employeePayrollData);
         } else {
-            employeePayrollList[parseInt(index)] = employeePayrollData;
+            employeePayrollList = [employeePayrollData];
         }
         alert(employeePayrollList.toString());
-        localStorage.setItem(
-            "employeePayrollList",
-            JSON.stringify(employeePayrollList)
+        localStorage.setItem ("employeePayrollList", JSON.stringify(employeePayrollList)
         );
     }
     
