@@ -20,14 +20,4 @@ window.addEventListener('DOMContentLoaded', (event) => {
     salary.addEventListener('input', function() {
         output.textContent = salary.value;
     });
-
-    let date =
-        getInputValueById("#day") +
-        "-" +
-        getInputValueById("#month") +
-        "-" +
-        getInputValueById("#year");
-    EmployeePayrollData.startDate = new Date(date);
-    alert(employeePayroll.toString());
-    return employeePayroll;
 });
