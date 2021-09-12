@@ -16,13 +16,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
     const salary = document.querySelector('#salary');
     const output = document.querySelector('.salary-output');
+    output.textContent = output.value;
+    salary.addEventListener('input',function(){
     output.textContent = salary.value;
-    salary.addEventListener('input', function() {
-        output.textContent = salary.value;
     });
 });
 
-const save = () => {
+//submit
+const save = () =>{
     try {
         let employeePayrollData = createEmployeePayroll();
         createAndUpdateStorage(employeePayrollData);
@@ -34,7 +35,7 @@ const save = () => {
 const createEmployeePayroll = () => {
     let employeePayrollData = new EmployeePayrollData();
     try {
-        employeePayrollData.name = document.querySelector('#name');
+        employeePayrollData.name = document.querySelector('#name').value;
     } catch (e) {
         setTextValue('.textError',e);
         throw e;
@@ -43,9 +44,9 @@ const createEmployeePayroll = () => {
 employeePayrollData.profilePic = getSelectedValues('[name = profile]').pop();
 employeePayrollData.gender = getSelectedValues('[name = gender]').pop();
 employeePayrollData.department = getSelectedValues('[name = department]');
-employeePayrollData.salary = document.querySelector('#salary');
-employeePayrollData.note = document.querySelector('#notes');
-let date = getInputValueById('#day') + " " + getInputValueById('#month') + " " + getInputValueById('#year');
+employeePayrollData.salary = document.querySelector('#salary').value;
+employeePayrollData.note = document.querySelector('#notes').value;
+let date = document.querySelector('#day').value + " " + document.querySelector('#month').value + " " + document.querySelector('#year').value;
 employeePayrollData.startDate = new Date(date);
 alert(employeePayrollData.toString());
 return employeePayrollData;
@@ -62,11 +63,6 @@ const getSelectedValues = (propertyValue) => {
 
 const getInputValueById = (id) => {
     let value = document.querySelector(id).value;
-    return value;
-}
-
-const getInputElementValue = (id) => {
-    let value = document.getElementById(id).value;
     return value;
 }
 
