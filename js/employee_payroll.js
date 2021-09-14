@@ -1,5 +1,6 @@
-class EmployeePayrollData{
-    // getter and setter method
+class EmployeePayrollData {
+
+    //getter and setter method
     get id() {
         return this._id;
     }
@@ -11,11 +12,10 @@ class EmployeePayrollData{
         return this._name;
     }
     set name(name) {
-        let nameRegex = RegExp('^[A-Z]{1}[a-zA-Z\\s]{2,}$');
-        if(nameRegex.test(name)){
+        let nameRegex = RegExp('^[A-Z]{1}[a-zA-Z\\s]{2,}$')
+        if (nameRegex.test(name))
             this._name = name;
-        }
-        else throw 'Name is Incorrect';
+        else throw 'Name is Incorrect!';
     }
 
     get profilePic() {
@@ -57,17 +57,20 @@ class EmployeePayrollData{
         return this._startDate;
     }
     set startDate(startDate) {
-        let now = new Date();
-        if (startDate > now) throw 'Start Date is a Future Date!';
-        var diff = Math.abs(now.getTime() - startDate.getTime());
-        if (diff / (1000 * 3600 * 24) > 30) throw 'Start Date is beyond 30 Days!';
-        this._startDate = startDate;
+       let newDate = startDate.getTime();
+        let currentDate = new Date().getTime();
+        if (newDate > currentDate) throw 'Start Date is a Future Date!';
+        var diff = Math.abs(currentDate - newDate);
+        if (diff / (1000 * 3600 * 24) > 30)
+         throw 'Start Date is beyond 30 Days';
+        this._startDate = newDate;
     }
 
+    //method
     toString() {
-        //const options = { year: 'numeric', month:'long', day:'numeric'};
+        // const options = { year: 'numeric', month:'long', day:'numeric'};
         const empDate = !this.startDate ? "undefined" :
-                        this.startDate.toLocaleDateString("en-GB");
+                        this.startDate.toLocalDateString("en-GB");
         return "id=" + this.id + ", name=" + this.name + ", gender=" + this.gender 
                 + ", profilePic=" + this.profilePic + ", department=" + this.department 
                 + ", salary=" + this.salary + ", startDate=" + empDate + ", note=" + this.note;
